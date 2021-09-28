@@ -69,6 +69,8 @@ oc set env dc/broker-amq JAVA_ARGS="-Dhawtio.rolePrincipalClasses=org.apache.act
 
 ## Testing it with fmtn/a
 
+[fmtn/a][a] is a nice little command-line ActiveMQ testing utility.
+
 Set up a Docker Hub secret if necessary:
 
 ```
@@ -76,7 +78,11 @@ oc create secret docker-registry docker-hub \
     --docker-server docker.io --docker-username USER --docker-password PASS
 
 oc secrets link default docker-hub --for=pull
+```
 
+Then run the _a_ image and try to put a message onto a queue:
+
+```
 oc run -i -t a --image=fmtn/a-util:1.5.0 --restart=Never -- sh
 
 java -jar /a/a.jar --artemis-core --broker tcp://broker-amq-tcp:61616 --user bobby --pass password0 --put "my message" sandwiches.queue
@@ -95,3 +101,5 @@ _"invalid_grant"_ in the Artemis logs, and _"User_not_found"_ in the Keycloak lo
 
 - This happens when the user does not exist in SSO/Keycloak.
 - Create the user in the Realm using the Keycloak web UI.
+
+[a]: https://github.com/fmtn/a
