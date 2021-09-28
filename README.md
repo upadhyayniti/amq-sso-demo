@@ -64,7 +64,7 @@ oc process -f amq-broker-78-custom-modified.yaml \
   -p IMAGE=${REGISTRY_HOST}/amq-broker-7/amq-broker-79-openshift-rhel8:7.9-10 \
   | oc apply -f -
 
-oc set env dc/broker-amq JAVA_ARGS="-Dhawtio.rolePrincipalClasses=org.apache.activemq.artemis.spi.core.security.jaas.RolePrincipal -Dhawtio.keycloakEnabled=true -Dhawtio.keycloakClientConfig=/home/jboss/broker/etc/rhsso-js-client.json -Dhawtio.authenticationEnabled=true -Dhawtio.realm=console -Dhawtio.roles=murex_admin"
+oc set env dc/broker-amq JAVA_ARGS="-Dhawtio.rolePrincipalClasses=org.apache.activemq.artemis.spi.core.security.jaas.RolePrincipal -Dhawtio.keycloakEnabled=true -Dhawtio.keycloakClientConfig=/home/jboss/broker/etc/rhsso-js-client.json -Dhawtio.authenticationEnabled=true -Dhawtio.realm=console -Dhawtio.roles=myapp_admin"
 ```
 
 ## Testing it with fmtn/a
