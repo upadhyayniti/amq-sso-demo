@@ -40,7 +40,7 @@ oc set env dc/sso SSO_IMPORT_FILE=/etc/realm/broker/keycloak-broker-realm.json
 
 **Now** log on to SSO Admin console using _rhssotest_ user, and add a user into the realm. Set a password, and ensure the user is granted an appropriate role from the list.
 
-## Deploy AMQ 7.9
+## Deploy AMQ 7.9 from Template
 
 Pull the AMQ image from a private registry, if required:
 
@@ -52,6 +52,8 @@ oc create secret docker-registry my-private-registry \
 
 oc secrets link default my-private-registry --for=pull
 ```
+
+Deploy AMQ using a slightly fudged AMQ 7.8 template (note that this method is **deprecated** and will be unsupported in future!):
 
 ```
 oc create configmap artemis-keycloak-config --from-file=artemis-keycloak-config
