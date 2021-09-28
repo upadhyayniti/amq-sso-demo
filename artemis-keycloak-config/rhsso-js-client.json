@@ -1,0 +1,5 @@
+{
+    "realm"    : "mycorp-amq-sso",
+    "clientId" : "amq-console",
+    "url"      : "https://sso-sso-app-demo.apps.cluster.dynamic.example.com/auth/"
+}

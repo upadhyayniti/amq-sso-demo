@@ -1,0 +1,12 @@
+{
+    "realm": "mycorp-amq-sso",
+    "auth-server-url": "https://sso-sso-app-demo.apps.cluster.dynamic.example.com/auth/",
+    "ssl-required": "external",
+    "resource": "amq-broker",
+    "credentials": {
+      "secret": "df9d6220-24a7-4bfc-87fb-4ca7b4c8f801"
+    },
+    "confidential-port": 0,
+    "use-resource-role-mappings": true,
+    "principal-attribute": "preferred_username"
+}
