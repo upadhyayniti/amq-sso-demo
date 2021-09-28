@@ -88,6 +88,14 @@ oc run -i -t a --image=fmtn/a-util:1.5.0 --restart=Never -- sh
 java -jar /a/a.jar --artemis-core --broker tcp://broker-amq-tcp:61616 --user bobby --pass password0 --put "my message" sandwiches.queue
 ```
 
+## Debugging
+
+Not sure what's going on at all. Need help? Use the included `util/logging.properties` file to see what's going on in the broker:
+
+```
+oc create configmap artemis-logging-properties --from-file=LOGGING_PROPERTIES=util/logging.properties
+oc set env --from=configmap/artemis-logging-properties dc/broker-amq
+```
 
 ## Troubleshooting/Issues
 
@@ -101,5 +109,7 @@ _"invalid_grant"_ in the Artemis logs, and _"User_not_found"_ in the Keycloak lo
 
 - This happens when the user does not exist in SSO/Keycloak.
 - Create the user in the Realm using the Keycloak web UI.
+
+
 
 [a]: https://github.com/fmtn/a
