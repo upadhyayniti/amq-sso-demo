@@ -42,6 +42,13 @@ oc set env dc/sso SSO_IMPORT_FILE=/etc/realm/broker/keycloak-broker-realm.json
 
 ## Deploy AMQ 7.9 from Template
 
+Update the Keycloak adapter JSON configuration files, setting the correct URL to your SSO deployment in the field `auth-server-url`. Then, add the files into a ConfigMap, which will be mounted into the AMQ pod:
+
+```
+# Edit the 'auth-server-url' attribute in the JSON files first!
+oc create configmap artemis-keycloak-config --from-file=artemis-keycloak-config
+```
+
 Pull the AMQ image from a private registry, if required:
 
 ```
@@ -56,16 +63,19 @@ oc secrets link default my-private-registry --for=pull
 Deploy AMQ using a slightly fudged AMQ 7.8 template (note that this method is **deprecated** and will be unsupported in future!):
 
 ```
-oc create configmap artemis-keycloak-config --from-file=artemis-keycloak-config
-
 oc process -f amq-broker-78-custom-modified.yaml \
   -p AMQ_REQUIRE_LOGIN="true" \
   -p AMQ_USER=admin -p AMQ_PASSWORD=cheesecake \
   -p IMAGE=${REGISTRY_HOST}/amq-broker-7/amq-broker-79-openshift-rhel8:7.9-10 \
   | oc apply -f -
 
-oc set env dc/broker-amq JAVA_ARGS="-Dhawtio.rolePrincipalClasses=org.apache.activemq.artemis.spi.core.security.jaas.RolePrincipal -Dhawtio.keycloakEnabled=true -Dhawtio.keycloakClientConfig=/home/jboss/broker/etc/rhsso-js-client.json -Dhawtio.authenticationEnabled=true -Dhawtio.realm=console -Dhawtio.roles=myapp_admin"
+oc set env dc/broker-amq JAVA_ARGS="-Dhawtio.rolePrincipalClasses=org.apache.activemq.artemis.spi.core.security.jaas.RolePrincipal -Dhawtio.keycloakEnabled=true -Dhawtio.keycloakClientConfig=/home/jboss/broker/etc/rhsso-js-client.json -Dhawtio.authenticationEnabled=true -Dhawtio.realm=console"
+
+# Remove this so that the readiness probe succeeds (otherwise it will fail due to the redirect to Keycloak)
+oc set probe dc/broker-amq --remove --readiness
 ```
+
+Note that the role(s) required to access Hawtio is set using the `HAWTIO_ROLE` property in `artemis.profile`. This is then translated into the `hawtio.role` property in the Artemis startup script (`/home/jboss/broker/bin/artemis`). [See docs][hawtio].
 
 ## Testing it with fmtn/a
 
@@ -134,3 +144,4 @@ How do I get broker to pick up updated ConfigMap values?
 
 
 [a]: https://github.com/fmtn/a
+[hawtio]: https://hawt.io/docs/configuration/
