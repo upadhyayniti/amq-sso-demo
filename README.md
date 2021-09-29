@@ -1,6 +1,8 @@
+<img src="./doodad.png" width="100%"/>
+
 # amq-sso-demo
 
-Deploying Red Hat AMQ 7.9 with Red Hat Single Sign-On 7.5 (Keycloak) as an authentication provider.
+Demo of using _Red Hat Single Sign-On 7.5 (Keycloak)_ as an authentication provider for _Red Hat AMQ 7.9_ on OpenShift.
 
 ## Deploy Red Hat Single Sign-On 7.5
 
