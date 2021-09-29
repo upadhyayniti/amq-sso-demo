@@ -144,6 +144,10 @@ How do I get broker to pick up updated ConfigMap values?
 
 - Scale the broker deployment down and then back up - e.g. `oc scale dc/broker-amq --replicas=0 && oc scale dc/broker-amq --replicas=1`
 
+---
+
+_Banner created with [Pattern Generator][pattern]_
 
 [a]: https://github.com/fmtn/a
 [hawtio]: https://hawt.io/docs/configuration/
+[pattern]: https://doodad.dev/pattern-generator/
