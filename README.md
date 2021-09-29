@@ -88,6 +88,19 @@ oc run -i -t a --image=fmtn/a-util:1.5.0 --restart=Never -- sh
 java -jar /a/a.jar --artemis-core --broker tcp://broker-amq-tcp:61616 --user bobby --pass password0 --put "my message" sandwiches.queue
 ```
 
+If all is well, the test client should output something like this:
+
+```
+Message sent
+Operation completed in 306ms (excluding connect)
+```
+
+...and you might also see a line like this in the Artemis logs, which is logged when the Keycloak adapter in Artemis makes a connection to Keycloak:
+
+```
+2021-09-29 07:39:31,095 INFO  [org.keycloak.adapters.KeycloakDeployment] Loaded URLs from https://sso-toms-sso-demo.apps.shared.openshift.example.com/auth/realms/mycorp-amq-sso/.well-known/openid-configuration
+```
+
 ## Debugging
 
 Not sure what's going on at all. Need help? Use the included `util/logging.properties` file to see what's going on in the broker:
@@ -99,7 +112,12 @@ oc set env --from=configmap/artemis-logging-properties dc/broker-amq
 
 ## Troubleshooting/Issues
 
-Some previous issues:
+Some previous issues and solutions, in case it's useful for you.
+
+Can't authenticate to Artemis, nothing in the Keycloak logs, and nothing in the Artemis logs except _"Unable to validate user from"_:
+
+- Have you set the `auth-server-url` correctly in _rhsso-direct-access.json_?
+- If the URL is incorrect, you won't see a log in Artemis.
 
 _"Error: Realm does not exist"_ in the Artemis logs:
 
@@ -110,6 +128,9 @@ _"invalid_grant"_ in the Artemis logs, and _"User_not_found"_ in the Keycloak lo
 - This happens when the user does not exist in SSO/Keycloak.
 - Create the user in the Realm using the Keycloak web UI.
 
+How do I get broker to pick up updated ConfigMap values?
+
+- Scale the broker deployment down and then back up - e.g. `oc scale dc/broker-amq --replicas=0 && oc scale dc/broker-amq --replicas=1`
 
 
 [a]: https://github.com/fmtn/a
