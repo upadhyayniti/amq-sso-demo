@@ -309,7 +309,7 @@ parameters:
   displayName: Image
   name: IMAGE
   required: true
-  value: registry.redhat.io/amq7/amq-broker:7.8
+  value: registry.redhat.io/amq-broker-7/amq-broker-78-openshift
 - description: Name of a secret containing credential data such as usernames and passwords
   displayName: Secret Name
   name: AMQ_CREDENTIAL_SECRET

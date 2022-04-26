@@ -1,6 +1,6 @@
 {
     "realm": "mycorp-amq-sso",
-    "auth-server-url": "https://sso-sso-app-demo.apps.cluster.dynamic.example.com/auth/",
+    "auth-server-url": "https://sso-default.apps.cluster-58znq.58znq.sandbox770.opentlc.com/auth/",
     "ssl-required": "external",
     "resource": "amq-broker",
     "credentials": {
