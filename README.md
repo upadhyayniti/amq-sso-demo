@@ -68,7 +68,7 @@ Deploy AMQ using a slightly fudged AMQ 7.8 template (note that this method is **
 oc process -f amq-broker-78-custom-modified.yaml \
   -p AMQ_REQUIRE_LOGIN="true" \
   -p AMQ_USER=admin -p AMQ_PASSWORD=cheesecake \
-  -p IMAGE=${REGISTRY_HOST}/amq-broker-7/amq-broker-79-openshift-rhel8:7.9-10 \
+  -p IMAGE=${REGISTRY_HOST}/amq7/amq-broker:7.8-31 \
   | oc apply -f -
 
 oc set env dc/broker-amq JAVA_ARGS="-Dhawtio.rolePrincipalClasses=org.apache.activemq.artemis.spi.core.security.jaas.RolePrincipal -Dhawtio.keycloakEnabled=true -Dhawtio.keycloakClientConfig=/home/jboss/broker/etc/rhsso-js-client.json -Dhawtio.authenticationEnabled=true -Dhawtio.realm=console"
